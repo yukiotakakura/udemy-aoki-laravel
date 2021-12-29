@@ -1,0 +1,30 @@
+version: "3" #決まり文句
+services:
+  db:
+    image: mariadb:10.4 #DockerHubにあるtagを指定
+    container_name: "udemy-aoki-ecdb" #container名は明示的に指定した方が良い ▼変更必須
+    volumes:
+      #「ホスト:コンテナ」形式。
+      - ./data:/var/lib/mysql
+      # mysqlの設定
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: udemy-aoki-ecdb #▼変更必須
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      TZ: "Asia/Tokyo"
+    #GUI形式でDBを管理する為のポートを指定(例phpmyadmin) ※ポート番号は重複しないように
+    ports:
+      - "3307:3307" #▼変更任意
+  php:
+    build: ./php #ビルドしたいフォルダを指定。このファイルから「php」フォルダを相対パスで指定
+    container_name: "udemy-aoki-laravel" #container名は明示的に指定した方が良い ▼変更必須
+    volumes:
+      #「ホスト:コンテナ」形式。
+      - ./src:/var/www/html
+      #自分で用意したApacheの設定を適用する（マウント）。人によって変わってくる部分はここに記載することで設定ファイルをいじるだけで良くなる
+      - ./php/vhost.conf:/etc/apache2/conf-enabled/vhost.conf
+    #Webサーバーのポート番号を指定
+    ports:
+      - "8082:80" #▼変更任意
