@@ -1,0 +1,8 @@
+■Laravel Breezeのインストール
+    composer require laravel/breeze "1.*" --dev
+
+    php artisan breeze:install
+
+    cd src
+    
+    npm install && npm run dev
