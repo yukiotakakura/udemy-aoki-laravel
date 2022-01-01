@@ -13,8 +13,9 @@ return [
     |
     */
 
+    // ここのガードはwebでもusersでもどちらでも良い
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'users',
         'passwords' => 'users',
     ],
 
@@ -40,6 +41,21 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // User
+        'users' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],  
+        // オーナー
+        'owners' => [
+            'driver' => 'session',
+            'provider' => 'owners',
+        ],  
+        // 管理者
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],  
     ],
 
     /*
@@ -60,9 +76,20 @@ return [
     */
 
     'providers' => [
+        // ユーザー
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        // オーナー
+        'owners' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Owner::class,
+        ],
+        // 管理者
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
 
         // 'users' => [
@@ -87,12 +114,31 @@ return [
     */
 
     'passwords' => [
+        // User
         'users' => [
+            // 上記の'provider'項目と紐付ける
             'provider' => 'users',
+            // テーブル名
             'table' => 'password_resets',
+            // 期限60日
+            'expire' => 60,
+            // ログインに失敗した場合は60秒ログインできなくなる
+            'throttle' => 60,
+        ],
+        // オーナー
+        'owners' => [
+            'provider' => 'owners',
+            'table' => 'owner_password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
+        // 管理者
+         'admin' => [
+            'provider' => 'admin',
+            'table' => 'admin_password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],       
     ],
 
     /*
