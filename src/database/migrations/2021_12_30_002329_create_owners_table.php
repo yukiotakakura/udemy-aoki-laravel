@@ -21,6 +21,8 @@ class CreateOwnersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            // 論理削除に必要なカラム
+            $table->softDeletes();
         });
     }
 

@@ -21,8 +21,8 @@ class OwnersController extends Controller
         $this->middleware('auth:admin');
     }
     /**
-     * Display a listing of the resource.
-     *
+     * オーナー一覧表示
+     * http://localhost:8082/admin/owners
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -33,8 +33,8 @@ class OwnersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * オーナー登録画面表示
+     * http://localhost:8082/admin/owners/create
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -43,7 +43,7 @@ class OwnersController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * オーナー新規登録
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -80,8 +80,8 @@ class OwnersController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * オーナー編集画面表示
+     * http://localhost:8082/admin/owners/1/edit
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -94,7 +94,7 @@ class OwnersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * オーナー更新処理
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -110,19 +110,46 @@ class OwnersController extends Controller
         $owner->save();
 
         return redirect()
-        ->route('admin.owners.index')
-        ->with(['message' => 'オーナー情報を更新しました。',
-        'status' => 'info']);
+                ->route('admin.owners.index')
+                ->with(['message' => 'オーナー情報を更新しました。',
+                'status' => 'info']);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * オーナー削除処理(ソフトデリート:論理削除s)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        Owner::findOrFail($id)->delete(); //ソフトデリート
+
+        return redirect()
+                ->route('admin.owners.index')
+                ->with(['message' => 'オーナー情報を削除しました。',
+                'status' => 'alert']);
+    }
+
+    /**
+     * 論理削除済み(ソフトデリート)オーナー一覧画面表示
+     * http://localhost:8082/admin/expired-owners/index
+     * @return void
+     */
+    public function expiredOwnerIndex(){
+        // 論理削除済みオーナーを取得
+        $expiredOwners = Owner::onlyTrashed()->get();
+        return view('admin.expired-owners', compact('expiredOwners'));
+    }
+    
+    /**
+     * オーナー完全削除機能
+     * @param [type] $id
+     * @return void
+     */
+    public function expiredOwnerDestroy($id){
+        // 物理削除する
+        Owner::onlyTrashed()->findOrFail($id)->forceDelete();
+        return redirect()->route('admin.expired-owners.index'); 
     }
 }

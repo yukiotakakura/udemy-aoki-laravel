@@ -33,6 +33,14 @@ Route::get('/', function () {
 // resource()で一度にCRUDをルーティングする
 Route::resource('owners', OwnersController::class)->middleware('auth:admin');
 
+// 期限切れ
+Route::prefix('expired-owners')
+    // 下記のルートには、guradのadminで認証する必要がある
+    ->middleware('auth:admin')->group(function(){
+        Route::get('index', [OwnersController::class, 'expiredOwnerIndex'])->name('expired-owners.index');
+        Route::post('destroy/{owner}', [OwnersController::class, 'expiredOwnerDestroy'])->name('expired-owners.destroy');
+});
+
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth:admin'])->name('dashboard');
