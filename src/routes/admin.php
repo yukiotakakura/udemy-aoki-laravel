@@ -26,12 +26,8 @@ use App\Http\Controllers\Admin\OwnersController;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.welcome');
-});
-
-// resource()で一度にCRUDをルーティングする
-Route::resource('owners', OwnersController::class)->middleware('auth:admin');
+// resource()で一度にCRUDをルーティングする (except()メソッドでリソースからshowメソッドを外す)
+Route::resource('owners', OwnersController::class)->middleware('auth:admin')->except(['show']);
 
 // 期限切れ
 Route::prefix('expired-owners')
