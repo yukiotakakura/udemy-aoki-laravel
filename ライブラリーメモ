@@ -6,3 +6,7 @@
     cd src
     
     npm install && npm run dev
+
+    npm install tailwindcss --save-dev
+■画像リサイズ
+    composer require intervention/image

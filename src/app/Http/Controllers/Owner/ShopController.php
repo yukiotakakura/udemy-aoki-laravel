@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImageRequest;
 use App\Models\Shop;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +39,7 @@ class ShopController extends Controller
 
     /**
      * ログインしているオーナが作ったShop画面を表示
-     *
+     * http://localhost:8082/owner/shops/index
      * @return void
      */
     public function index()
@@ -48,6 +50,12 @@ class ShopController extends Controller
         return view('owner.shops.index', compact('shops'));
     }
 
+	/**
+	 * ログイン中オーナの店舗変更画面を表示
+	 * http://localhost:8082/owner/shops/edit/1
+	 * @param [type] $id
+	 * @return void
+	 */
     public function edit($id)
     {
         $shop = Shop::findOrFail($id);
@@ -55,34 +63,39 @@ class ShopController extends Controller
         return view('owner.shops.edit', compact('shop'));
     }
 
-    //public function update(UploadImageRequest $request, $id)
-    public function update(Request $request, $id)
+	/**
+	 * ログイン中オーナの店舗情報更新処理
+	 * 
+	 * @param UploadImageRequest $request
+	 * @param [type] $id
+	 * @return void
+	 */
+    public function update(UploadImageRequest $request, $id)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:50',
-        //     'information' => 'required|string|max:1000',
-        //     'is_selling' => 'required',
-        // ]);
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'information' => 'required|string|max:1000',
+            'is_selling' => 'required',
+        ]);
 
-        // $imageFile = $request->image;
-        // if(!is_null($imageFile) && $imageFile->isValid() ){
-        //     $fileNameToStore = ImageService::upload($imageFile, 'shops');    
-        // }
+        $imageFile = $request->image;
+        if(!is_null($imageFile) && $imageFile->isValid() ){
+            $fileNameToStore = ImageService::upload($imageFile, 'shops');    
+        }
 
-        // $shop = Shop::findOrFail($id);
-        // $shop->name = $request->name;
-        // $shop->information = $request->information;
-        // $shop->is_selling = $request->is_selling;
-        // if(!is_null($imageFile) && $imageFile->isValid()){
-        //     $shop->filename = $fileNameToStore;
-        // }
+        $shop = Shop::findOrFail($id);
+        $shop->name = $request->name;
+        $shop->information = $request->information;
+        $shop->is_selling = $request->is_selling;
+        if(!is_null($imageFile) && $imageFile->isValid()){
+            $shop->filename = $fileNameToStore;
+        }
 
-        // $shop->save();
+        $shop->save();
 
-        // return redirect()
-        // ->route('owner.shops.index')
-        // ->with(['message' => '店舗情報を更新しました。',
-        // 'status' => 'info']);
+        return redirect()
+                ->route('owner.shops.index')
+                ->with(['message' => '店舗情報を更新しました。','status' => 'info']);
 
     }
 }
