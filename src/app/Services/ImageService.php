@@ -9,7 +9,7 @@ class ImageService
 {
 	public static function upload($imageFile, $folderName){
 		//dd($imageFile['image']);
-		if(is_array($imageFile)){
+		if(is_array($imageFile)){ // $imageFileが配列だった場合 (画像を複数登録すると画像は配列でrequestされる)
 			$file = $imageFile['image'];
 		} else {
 			$file = $imageFile;
