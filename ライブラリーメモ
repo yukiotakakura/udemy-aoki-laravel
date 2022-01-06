@@ -1,3 +1,6 @@
+■デバッグバー
+    composer require barryvdh/laravel-debugbar
+
 ■Laravel Breezeのインストール
     composer require laravel/breeze "1.*" --dev
 
