@@ -17,8 +17,8 @@ class ImageController extends Controller
         $this->middleware('auth:owners');
 
         /**
-         * オーナがURLパラメータを直打ちした場合、他オーナのImageが見れてしまうので下記のミドルウェアで対応する
-         * 正しい仕様は、ログインしているオーナは、自分のImageしか見れないようにする
+         * オーナがURLパラメータを直打ちした場合、他オーナの商品画像(Image)が見れてしまうので下記のミドルウェアで対応する
+         * 正しい仕様は、ログインしているオーナは、自分の商品画像(Image)しか見れないようにする
          * コンストラクタにミドルウェアを配置することでページ読込の際に処理を挟むことができる
          */
         $this->middleware(function ($request, $next) {

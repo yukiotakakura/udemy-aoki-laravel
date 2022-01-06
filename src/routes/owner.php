@@ -11,6 +11,7 @@ use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use App\Http\Controllers\Owner\ImageController;
+use App\Http\Controllers\Owner\ProductController;
 use App\Http\Controllers\Owner\ShopController;
 
 // 
@@ -37,7 +38,10 @@ Route::prefix('shops')
         Route::post('update/{shop}', [ShopController::class, 'update'])->name('shops.update');
 });
 
+// 商品画像管理
 Route::resource('images', ImageController::class)->middleware('auth:owners')->except(['show']);
+// 商品管理
+Route::resource('products', ProductController::class)->middleware('auth:owners')->except(['show']);
 
 Route::get('/dashboard', function () {
     return view('owner.dashboard');
