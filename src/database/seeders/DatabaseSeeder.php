@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use App\Models\Stock;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +24,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
             StockSeeder::class,
+            UserSeeder::class,
         ]);
+        Product::factory(100)->create(); // 親モデルから先に記述必要がある
+        Stock::factory(100)->create();
     }
 }
