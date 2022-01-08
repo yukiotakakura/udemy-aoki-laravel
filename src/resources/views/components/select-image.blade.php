@@ -7,6 +7,9 @@
   $cImage = $currentImage ?? '' ;
   $cId = $currentId ?? '' ;
 @endphp
+
+<!-- https://gist.github.com/ghosh/4f94cf497d7090359a5c9f81caf60699  -->
+<!-- 【モーダル処理②】：モーダルWindowsの中に画像を描画する ここから -->
 <div class="modal micromodal-slide" id="{{ $modal }}" aria-hidden="true">
   <div class="modal__overlay z-50" tabindex="-1" data-micromodal-close>
     <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="{{ $modal }}-title">
@@ -18,16 +21,17 @@
       </header>
       <main class="modal__content" id="{{ $modal }}-content">
         <div class="flex flex-wrap">
+          <!-- プロップスで渡ってきた画像リストをループする -->
           @foreach ($images as $image )
               <div class="w-1/4 p-2 md:p-4">
-              <div class="border rounded-md p-2 md:p-4">
-                <img class="image" data-id="{{ $name }}_{{ $image->id }}" 
-                data-file="{{ $image->filename }}"
-                data-path="{{ asset('storage/products/') }}"
-                data-modal="{{ $modal }}"
-                src="{{ asset('storage/products/' . $image->filename)}}">
-                <div class="text-gray-700">{{ $image->title }}</div>
-              </div>
+                <div class="border rounded-md p-2 md:p-4">
+                  <img class="image" data-id="{{ $name }}_{{ $image->id }}" 
+                  data-file="{{ $image->filename }}"
+                  data-path="{{ asset('storage/products/') }}"
+                  data-modal="{{ $modal }}"
+                  src="{{ asset('storage/products/' . $image->filename)}}">
+                  <div class="text-gray-700">{{ $image->title }}</div>
+                </div>
               </div>
             @endforeach
           </div>
@@ -38,11 +42,13 @@
     </div>
   </div>
 </div>
-
+<!-- モーダルWindowsの中に画像を描画する ここまで -->
 
 
 <div class="flex justify-around items-center mb-4">
+  <!-- モーダルのトリガー ここから  【モーダル処理①】：このボタンをクリックすると上記②のモーダルウィンドウが開く-->
   <a class="py-2 px-4 bg-gray-200" data-micromodal-trigger="{{ $modal }}" href='javascript:;'>ファイルを選択</a>
+  <!-- モーダルのトリガー ここまで -->
   <div class="w-1/4">
     <img id="{{ $name }}_thumbnail" @if($cImage) src="{{ asset('storage/products/' . $cImage)}}" @else src="" @endif src="">
   </div>

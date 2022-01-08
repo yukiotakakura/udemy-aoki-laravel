@@ -13,3 +13,6 @@
     npm install tailwindcss --save-dev
 ■画像リサイズ
     composer require intervention/image
+
+■マイクロモーダル
+    npm install micromodal --save

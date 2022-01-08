@@ -94,18 +94,28 @@
       </div>
   </div>
   <script>
-    'use strict'
+    // 【モーダル処理③】：画像(1枚)が選択されたら、①ブロックの中のsrc属性とhidden属性に値をセットする
+    // つまり、②のモーダルWindowの中で選択された画像を描画する為にsrc属性に画像パスを設定し、サーバーにrequestを送る為に、hidden属性にデータをセットする
+
+    'use strict' // 厳し目のチェックであることを明示的に宣言
+    // 「select-image」コンポーネントの中にあるclass属性が「image」であるものを取得する
+    // デフォルトの状態だと30枚の画像が取得できる。(内訳:sample1〜sample6 × 5 = 30枚)
     const images = document.querySelectorAll('.image')
     
+
     images.forEach( image =>  {
+      // モーダルの中の画像がクリックされたら
       image.addEventListener('click', function(e){
         const imageName = e.target.dataset.id.substr(0, 6)
         const imageId = e.target.dataset.id.replace(imageName + '_', '')
         const imageFile = e.target.dataset.file
         const imagePath = e.target.dataset.path
         const modal = e.target.dataset.modal
+        // src属性の要素にセットする。 (例)<img id="image2_thumbnail" src="http://localhost:8082/storage/products/sample2.jpg">
         document.getElementById(imageName + '_thumbnail').src = imagePath + '/' + imageFile
+         // hidden属性の要素にセットする (例)「<input id="image2_hidden" type="hidden" name="image2" value="2">」
         document.getElementById(imageName + '_hidden').value = imageId
+        // モーダルを閉じる
         MicroModal.close(modal);
     }, )
     })  
