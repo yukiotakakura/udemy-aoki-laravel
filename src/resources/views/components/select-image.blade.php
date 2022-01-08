@@ -50,6 +50,7 @@
   <a class="py-2 px-4 bg-gray-200" data-micromodal-trigger="{{ $modal }}" href='javascript:;'>ファイルを選択</a>
   <!-- モーダルのトリガー ここまで -->
   <div class="w-1/4">
+    <!-- 更新画面の場合は、現在登録されている画像を選択する。それ以外の場合は空にしておく。 -->
     <img id="{{ $name }}_thumbnail" @if($cImage) src="{{ asset('storage/products/' . $cImage)}}" @else src="" @endif src="">
   </div>
 </div>

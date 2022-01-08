@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id(); // ID
             $table->string('name'); // 商品名
             $table->text('information'); // 情報
-            $table->unsignedInteger('price'); // 値段
+            $table->unsignedInteger('price'); // 値段 (データ型は符号なしの数値)
             $table->boolean('is_selling'); // 販売/停止
             $table->integer('sort_order')->nullable(); // 並び順
             // ★cascadeをつける理由
