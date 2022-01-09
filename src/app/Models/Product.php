@@ -83,6 +83,15 @@ class Product extends Model
         return $this->hasMany(Stock::class);
     }
 
+    // 中間テーブルのリレーションナルメソッド
+    public function users()
+    {
+        // belongsToMany()メソッド
+        // 第1引数に「相手モデル」、第2引数に「中間テーブル名」
+        // withPivot()メソッドで、引数に中間テーブルのカラム名を指定して取得する
+        return $this->belongsToMany(User::class, 'carts')->withPivot(['id', 'quantity']);
+    }
+
     /**
      * 商品一覧を取得する
      * 在庫が1以上である商品(shops、カテゴリ、画像)を取得する
@@ -119,5 +128,7 @@ class Product extends Model
                     ->select('products.id as id', 'products.name as name', 'products.price','products.sort_order as sort_order'
                             ,'products.information', 'secondary_categories.name as category','image1.filename as filename');
     }
+
+
 
 }

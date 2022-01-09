@@ -41,4 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // 中間テーブル
+    public function products()
+    {
+        // belongsToMany()メソッド
+        // 第1引数に「相手モデル」、第2引数に「中間テーブル名」
+        // withPivot()メソッドで、引数に中間テーブルのカラム名を指定して取得する
+        return $this->belongsToMany(Product::class, 'carts')->withPivot(['id', 'quantity']); 
+    }
 }

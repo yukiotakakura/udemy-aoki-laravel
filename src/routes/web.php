@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ItemController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,10 +18,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('user.welcome');
 });
-// 【User】はログイン中のみ商品一覧画面を表示
+// 【User】はログイン中のみ
 Route::middleware('auth:users')->group(function(){
+        // 商品一覧画面表示
         Route::get('/', [ItemController::class, 'index'])->name('items.index');
+        // 商品詳細画面表示
         Route::get('show/{item}', [ItemController::class, 'show'])->name('items.show');
+});
+
+// 【User】はログイン中のみ
+Route::prefix('cart')->middleware('auth:users')->group(function(){
+        Route::get('/', [CartController::class, 'index'])->name('cart.index');
+        Route::post('add', [CartController::class, 'add'])->name('cart.add');   
+        Route::post('delete/{item}', [CartController::class, 'delete'])->name('cart.delete');
+        Route::get('checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+        Route::get('success', [CartController::class, 'success'])->name('cart.success');
+        Route::get('cancel', [CartController::class, 'cancel'])->name('cart.cancel');
 });
 
 
