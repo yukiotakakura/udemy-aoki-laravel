@@ -94,14 +94,17 @@
                     <img src="">
                   @endif
                 </div>
+                <!-- モーダルのトリガー ここから -->
                 <div class="mb-4 text-center">
                   <button data-micromodal-trigger="modal-1" href='javascript:;' type="button" class="text-white bg-gray-400 border-0 py-2 px-6 focus:outline-none hover:bg-gray-500 rounded">ショップの詳細を見る</button>
                 </div>
+                <!-- モーダルのトリガー ここまで -->
               </div>
           </div>
       </div>
   </div>
 
+  <!-- モーダルwindows ここから -->
   <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
     <div class="modal__overlay" tabindex="-1" data-micromodal-close>
       <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
@@ -122,6 +125,7 @@
       </div>
     </div>
   </div>
+  <!-- モーダルwindows ここまで -->
 
   <script src="{{ mix('js/swiper.js')}}"></script>
 </x-app-layout>
