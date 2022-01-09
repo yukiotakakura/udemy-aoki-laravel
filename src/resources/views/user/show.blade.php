@@ -11,7 +11,7 @@
               <div class="p-6 bg-white border-b border-gray-200">
                 <div class="md:flex md:justify-around">
                   <div class="md:w-1/2">
-                    <!-- Slider main container -->
+                    <!-- スワイプ ここから -->
                   <div class="swiper-container">
                     <!-- Additional required wrapper -->
                     <div class="swiper-wrapper">
@@ -56,6 +56,7 @@
                     <!-- If we need scrollbar -->
                     <div class="swiper-scrollbar"></div>
                   </div>
+                  <!-- スワイプ ここまで -->
                   </div>
                   <div class="md:w-1/2 ml-4">
                     <h2 class="mb-4 text-sm title-font text-gray-500 tracking-widest">{{ $product->category->name }}</h2>
@@ -122,5 +123,5 @@
     </div>
   </div>
 
-  {{--<script src="{{ mix('js/swiper.js')}}"></script>--}}
+  <script src="{{ mix('js/swiper.js')}}"></script>
 </x-app-layout>

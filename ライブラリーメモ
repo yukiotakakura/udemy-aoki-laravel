@@ -16,3 +16,6 @@
 
 ■マイクロモーダル
     npm install micromodal --save
+
+■スワイプ(https://swiperjs.com/get-started)
+    npm install swiper@6.7.0
