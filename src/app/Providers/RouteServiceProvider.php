@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/'; // 一覧画面
 
     /**
      * ログイン後のリダイレクト(オーナー)

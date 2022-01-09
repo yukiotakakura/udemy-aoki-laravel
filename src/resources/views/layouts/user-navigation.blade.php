@@ -4,17 +4,18 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('user.dashboard') }}">
+                <div class="flex-shrink-0 flex items-center">
+                    <div class="w-12">
+                        <a href="{{-- route('user.items.index') --}}">
                         <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
                     </a>
+                    </div>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+                    <!-- 商品一覧 削除 -->
+                    <!-- カート 削除 -->
                 </div>
             </div>
 
@@ -41,7 +42,7 @@
                             <x-dropdown-link :href="route('user.logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Log out') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -63,16 +64,23 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('user.dashboard')" :active="request()->routeIs('user.dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            <!-- 削除 -->
+            <!-- カート 削除 -->
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            <div class="flex items-center px-4">
+                <div class="flex-shrink-0">
+                    <svg class="h-10 w-10 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+
+                <div class="ml-3">
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">
@@ -83,7 +91,7 @@
                     <x-responsive-nav-link :href="route('user.logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Log out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
