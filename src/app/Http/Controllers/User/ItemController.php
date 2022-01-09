@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\PrimaryCategory;
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -25,6 +26,13 @@ class ItemController extends Controller
         //     return $next($request);
         // });
     }
+
+    /**
+     * 商品一覧画面表示
+     * http://localhost:8082/
+     * @param Request $request
+     * @return void
+     */
     public function index(Request $request)
     {
         // dd($request);
@@ -46,6 +54,24 @@ class ItemController extends Controller
                             ->paginate($request->pagination ?? '20');
 
         return view('user.index', compact('products', 'categories'));
+    }
+
+    /**
+     * 商品詳細画面表示
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        $quantity = Stock::where('product_id', $product->id)->sum('quantity');
+
+        if($quantity > 9){
+            $quantity = 9;
+          }
+
+        return view('user.show', compact('product', 'quantity'));
     }
 
 }
