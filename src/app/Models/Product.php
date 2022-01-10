@@ -162,4 +162,52 @@ class Product extends Model
 
     }
 
+    /**
+     * カテゴリを絞り込む
+     *
+     * @param [type] $query
+     * @param [type] $categoryId
+     * @return void
+     */
+    public function scopeSelectCategory($query, $categoryId)
+    {
+        if($categoryId !== '0')
+        {
+            // カテゴリが指定されている場合は検索
+            return $query->where('secondary_category_id', $categoryId);
+        } else {
+            return ;
+        }
+    }
+
+    /**
+     * キーワード検索する
+     *
+     * @param [type] $query
+     * @param [type] $keyword
+     * @return void
+     */
+    public function scopeSearchKeyword($query, $keyword)
+    {
+        if(!is_null($keyword))
+        {
+           //全角スペースを半角に
+           $spaceConvert = mb_convert_kana($keyword,'s');
+
+           //空白で区切る
+           $keywords = preg_split('/[\s]+/', $spaceConvert,-1,PREG_SPLIT_NO_EMPTY);
+
+           //単語をループで回す
+           foreach($keywords as $word)
+           {
+               $query->where('products.name','like','%'.$word.'%');
+           }
+
+           return $query;  
+
+        } else {
+            return;
+        }
+    }
+
 }

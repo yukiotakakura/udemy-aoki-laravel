@@ -41,7 +41,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request);
+        //dd($request);
 
         // 同期的に送信
         // Mail::to('test@example.com')
@@ -54,8 +54,8 @@ class ItemController extends Controller
 
         // 在庫数が1以上 & 販売中である商品を取得する
         $products = Product::availableItems()
-                            // ->selectCategory($request->category ?? '0')
-                            // ->searchKeyword($request->keyword)
+                            ->selectCategory($request->category ?? '0') // カテゴリ絞り込み
+                            ->searchKeyword($request->keyword) // キーワード検索する
                             ->sortOrder($request->sort) // 「おすすめ順、高い順、安い順、古い順、新しい順」
                             ->paginate($request->pagination ?? '20'); // 初期表示において表示件数を設定していないと商品件数がおかしくなる対策として、デフォルトを20件とする
 
