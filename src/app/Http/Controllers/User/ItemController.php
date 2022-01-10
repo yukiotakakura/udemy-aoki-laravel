@@ -56,7 +56,7 @@ class ItemController extends Controller
         $products = Product::availableItems()
                             // ->selectCategory($request->category ?? '0')
                             // ->searchKeyword($request->keyword)
-                            // ->sortOrder($request->sort)
+                            ->sortOrder($request->sort) // 「おすすめ順、高い順、安い順、古い順、新しい順」
                             ->paginate($request->pagination ?? '20');
 
         return view('user.index', compact('products', 'categories'));

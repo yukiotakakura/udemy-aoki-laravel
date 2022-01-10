@@ -25,6 +25,7 @@
                         <div class="flex">
                         <div>
                             <span class="text-sm">表示順</span><br>
+                            <!-- 商品の並び順 ここから -->
                             <select id="sort" name="sort" class="mr-4">
                                 <option value="{{ \Constant::SORT_ORDER['recommend']}}"
                                     @if(\Request::get('sort') === \Constant::SORT_ORDER['recommend'] ) 
@@ -52,6 +53,7 @@
                                     @endif>古い順
                                 </option>
                             </select>
+                            <!-- 商品の並び順 ここまで -->
                         </div>
                         <div>
                             <span class="text-sm">表示件数</span><br>
@@ -110,6 +112,7 @@
     </div>
 <script>
     const select = document.getElementById('sort')
+    // 商品の並び順が変更されたら、このフォームをサブミットする
     select.addEventListener('change', function(){
         this.form.submit()
     })

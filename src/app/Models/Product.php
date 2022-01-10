@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\Common;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -129,6 +130,36 @@ class Product extends Model
                             ,'products.information', 'secondary_categories.name as category','image1.filename as filename');
     }
 
+    /**
+     * 商品の並び順をセットする
+     *
+     * @param [type] $query
+     * @param [type] $sortOrder
+     * @return void
+     */
+    public function scopeSortOrder($query, $sortOrder)
+    {
+        // null || おすすめ順
+        if($sortOrder === null || $sortOrder === Common::SORT_ORDER['recommend']){
+            return $query->orderBy('sort_order', 'asc') ;
+         }
+        // 高い順
+        if($sortOrder === Common::SORT_ORDER['higherPrice']){
+            return $query->orderBy('price', 'desc') ;
+        }
+        // 安い順
+        if($sortOrder === Common::SORT_ORDER['lowerPrice']){
+            return $query->orderBy('price', 'asc') ;
+        }
+        // 古い順
+        if($sortOrder === Common::SORT_ORDER['later']){
+            return $query->orderBy('products.created_at', 'desc') ;
+        }
+        // 新しい順
+        if($sortOrder === Common::SORT_ORDER['older']){
+            return $query->orderBy('products.created_at', 'asc') ;
+        }
 
+    }
 
 }
