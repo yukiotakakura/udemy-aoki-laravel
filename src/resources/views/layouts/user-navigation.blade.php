@@ -14,8 +14,12 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <!-- 商品一覧 削除 -->
-                    <!-- カート 削除 -->
+                    <x-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
+                        {{ __('ホーム') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
+                        カートを表示
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -64,8 +68,12 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <!-- 削除 -->
-            <!-- カート 削除 -->
+            <x-responsive-nav-link :href="route('user.items.index')" :active="request()->routeIs('user.items.index')">
+                {{ __('ホーム') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('user.cart.index')" :active="request()->routeIs('user.cart.index')">
+                カートを表示
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
