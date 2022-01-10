@@ -57,7 +57,7 @@ class ItemController extends Controller
                             // ->selectCategory($request->category ?? '0')
                             // ->searchKeyword($request->keyword)
                             ->sortOrder($request->sort) // 「おすすめ順、高い順、安い順、古い順、新しい順」
-                            ->paginate($request->pagination ?? '20');
+                            ->paginate($request->pagination ?? '20'); // 初期表示において表示件数を設定していないと商品件数がおかしくなる対策として、デフォルトを20件とする
 
         return view('user.index', compact('products', 'categories'));
     }

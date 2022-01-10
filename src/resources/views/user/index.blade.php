@@ -57,6 +57,7 @@
                         </div>
                         <div>
                             <span class="text-sm">表示件数</span><br>
+                            <!-- 商品の表示件数 ここから -->
                             <select id="pagination" name="pagination">
                                 <option value="20"
                                     @if(\Request::get('pagination') === '20')
@@ -74,6 +75,7 @@
                                     @endif>100件
                                 </option>
                             </select>
+                            <!-- 商品の表示件数 ここまで -->
                         </div>
                     </div>
                 </div>
@@ -102,6 +104,7 @@
                        @endforeach
                      
                      </div>
+                     <!-- ページネーション -->
                      {{ $products->appends([
                          'sort' => \Request::get('sort'),
                          'pagination' => \Request::get('pagination')
@@ -117,6 +120,7 @@
         this.form.submit()
     })
     const paginate = document.getElementById('pagination')
+    // 商品の表示件数が変更されたら、このフォームをサブミットする
     paginate.addEventListener('change', function(){
         this.form.submit()
     })
