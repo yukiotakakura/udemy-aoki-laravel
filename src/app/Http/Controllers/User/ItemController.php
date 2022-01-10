@@ -13,18 +13,24 @@ class ItemController extends Controller
     public function __construct()
     {
         $this->middleware('auth:users');
-
-        // $this->middleware(function ($request, $next) {
-
-        //     $id = $request->route()->parameter('item'); 
-        //     if(!is_null($id)){ 
-        //     $itemId = Product::availableItems()->where('products.id', $id)->exists();
-        //         if(!$itemId){ 
-        //             abort(404);
-        //         }
-        //     }
-        //     return $next($request);
-        // });
+        /**
+         * ユーザがURLパラメータを直打ちした場合、販売停止中(is_sellingが0)の商品が見れてしまうので下記のミドルウェアで対応する
+         * 正しい仕様は、ログインしているユーザは、販売中の商品のみしか閲覧できない
+         * コンストラクタにミドルウェアを配置することでページ読込の際に処理を挟むことができる
+         */
+        $this->middleware(function ($request, $next) {
+            $id = $request->route()->parameter('item'); 
+            if(!is_null($id)){ 
+            // 在庫数が1以上 & 販売中である商品を取得して、その中にurl直打ちされた商品idが存在しているかどうかを検索する
+            $itemId = Product::availableItems()->where('products.id', $id)->exists();
+            
+            // 存在していない場合は
+            if(!$itemId){ 
+                abort(404);
+            }
+            }
+            return $next($request);
+        });
     }
 
     /**
@@ -46,7 +52,7 @@ class ItemController extends Controller
 
         $categories = PrimaryCategory::with('secondary')->get();
 
-        // 在庫数が1以上である商品を取得する
+        // 在庫数が1以上 & 販売中である商品を取得する
         $products = Product::availableItems()
                             // ->selectCategory($request->category ?? '0')
                             // ->searchKeyword($request->keyword)
