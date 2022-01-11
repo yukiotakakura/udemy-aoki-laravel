@@ -4,9 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Constants\Common;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendOrderMail;
+use App\Jobs\SendThanksMail;
 use App\Models\Cart;
 use App\Models\Stock;
 use App\Models\User;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -132,20 +135,23 @@ class CartController extends Controller
 
     public function success()
     {
-        // Userのカートを取得
+        // ユーザのカート情報を取得
         $items = Cart::where('user_id', Auth::id())->get();
-        // // 
-        // $products = CartService::getItemsInCart($items);
-        // $user = User::findOrFail(Auth::id());
+        $products = CartService::getItemsInCart($items);
+        $user = User::findOrFail(Auth::id());
 
-        // SendThanksMail::dispatch($products, $user);
-        // foreach($products as $product)
-        // {
-        //     SendOrderedMail::dispatch($product, $user);
-        // }
-        // // dd('ユーザーメール送信テスト');
-        // ////
-        // Cart::where('user_id', Auth::id())->delete();
+        // 「SendThanksMail」Jobをキュー(テーブル)に追加
+        // ユーザ向けメールを送信
+        SendThanksMail::dispatch($products, $user);
+
+        foreach($products as $product)
+        {
+            // オーナ向けメールを送信
+            SendOrderMail::dispatch($product, $user);
+        }
+        // dd('ユーザーメール送信テスト');
+        ////
+        Cart::where('user_id', Auth::id())->delete();
 
         return redirect()->route('user.items.index');
     }
